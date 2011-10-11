@@ -1,4 +1,4 @@
-img = imread('../assets/placa2.bmp');
+img = imread('../assets/placa1.bmp');
 
 [corners, imgGray, imgEdge] = findSegmentedCorners(img);
 [rects] = findRectangles(corners);
@@ -35,10 +35,9 @@ if (nRects > 0)
 		imgConnectedComponents = bwlabel(imgCroppedBW);
 
 		stats = regionprops(imgConnectedComponents, 'BoundingBox', 'Solidity');
-		solidity = cat(1, stats.Solidity);
 		boundingBox = cat(1, stats.BoundingBox);
 		boundingBoxHeight = boundingBox(:, 4);
-		numberIndexes = find((solidity <= 0.7) & (boundingBoxHeight >= 25) & (boundingBoxHeight <= 35));
+		numberIndexes = find((boundingBoxHeight >= 25) & (boundingBoxHeight <= 35));
 
 		imgOutput = ismember(imgConnectedComponents, numberIndexes);
 		subplot(totalSubPlotRows, 1, nImgs), subimage(imgOutput)
